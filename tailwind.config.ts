@@ -37,10 +37,10 @@ export default {
           foreground: "#FFFFFF",
         },
         card: {
-          red: "#F56565",
-          blue: "#4299E1",
-          green: "#48BB78",
-          orange: "#ED8936",
+          red: "#FF0000",
+          blue: "#0000FF",
+          green: "#00FF00",
+          yellow: "#FFFF00",
         },
       },
       keyframes: {

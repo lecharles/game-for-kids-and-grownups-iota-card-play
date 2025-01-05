@@ -1,5 +1,5 @@
 import { Card } from "@/lib/game";
-import { Circle, Plus, Square, Triangle } from "lucide-react";
+import { Circle, X, Square, Triangle } from "lucide-react";
 
 interface GameCardProps {
   card: Card;
@@ -11,7 +11,7 @@ const ShapeMap = {
   circle: Circle,
   square: Square,
   triangle: Triangle,
-  plus: Plus,
+  cross: X,
 };
 
 export const GameCard = ({ card, draggable = false, onDragStart }: GameCardProps) => {
@@ -26,13 +26,18 @@ export const GameCard = ({ card, draggable = false, onDragStart }: GameCardProps
     <div
       draggable={draggable}
       onDragStart={handleDragStart}
-      className={`relative w-full h-full rounded-lg bg-white shadow-md transition-transform hover:scale-105 cursor-pointer ${draggable ? 'hover:animate-card-hover' : ''}`}
+      className={`relative w-full h-full rounded-lg bg-white shadow-md transition-transform hover:scale-105 cursor-pointer ${
+        draggable ? 'hover:animate-card-hover' : ''
+      }`}
     >
       <div
         className={`absolute inset-0 rounded-lg bg-card-${card.color} bg-opacity-20 flex items-center justify-center`}
       >
         <div className="relative">
-          <ShapeComponent className={`w-6 h-6 text-card-${card.color}`} />
+          <ShapeComponent 
+            className={`w-8 h-8 text-card-${card.color}`} 
+            strokeWidth={2.5}
+          />
           <span
             className={`absolute -top-3 -right-3 w-5 h-5 rounded-full bg-card-${card.color} text-white flex items-center justify-center text-xs font-bold`}
           >

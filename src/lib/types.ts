@@ -1,5 +1,5 @@
-export type CardColor = 'red' | 'blue' | 'green' | 'orange';
-export type CardShape = 'square' | 'triangle' | 'circle' | 'plus';
+export type CardColor = 'red' | 'blue' | 'green' | 'yellow';
+export type CardShape = 'square' | 'triangle' | 'circle' | 'cross';
 export type CardNumber = 1 | 2 | 3 | 4;
 
 export interface Card {

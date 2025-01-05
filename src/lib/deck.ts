@@ -2,8 +2,8 @@ import { Card, CardColor, CardShape, CardNumber } from './types';
 
 export function createDeck(): Card[] {
   const deck: Card[] = [];
-  const colors: CardColor[] = ['red', 'blue', 'green', 'orange'];
-  const shapes: CardShape[] = ['square', 'triangle', 'circle', 'plus'];
+  const colors: CardColor[] = ['red', 'blue', 'green', 'yellow'];
+  const shapes: CardShape[] = ['square', 'triangle', 'circle', 'cross'];
   const numbers: CardNumber[] = [1, 2, 3, 4];
 
   // Create 66 cards (including duplicates of some combinations)
