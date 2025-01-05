@@ -29,16 +29,18 @@ export const SwapControls = ({
           variant="outline"
           size="sm"
           disabled={hasSwappedThisTurn}
+          className={hasSwappedThisTurn ? "opacity-50 cursor-not-allowed" : ""}
         >
-          {hasSwappedThisTurn ? "Already Swapped" : "Swap Cards"}
+          {hasSwappedThisTurn ? "Already Swapped This Turn" : "Swap Cards"}
         </Button>
       ) : (
         <>
           <Button
             onClick={onExecuteSwap}
-            disabled={selectedCount !== 2}
+            disabled={selectedCount !== 2 || hasSwappedThisTurn}
             variant="default"
             size="sm"
+            className={hasSwappedThisTurn ? "opacity-50 cursor-not-allowed" : ""}
           >
             Execute Swap
           </Button>

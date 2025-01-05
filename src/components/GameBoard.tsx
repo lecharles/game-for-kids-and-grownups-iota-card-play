@@ -3,7 +3,7 @@ import { GameCard } from "./GameCard";
 
 interface GameBoardProps {
   grid: Map<string, Card>;
-  onDrop: (position: Position) => void;
+  onDrop: (position: Position, cardId: string) => void;
 }
 
 export const GameBoard = ({ grid, onDrop }: GameBoardProps) => {
@@ -12,7 +12,7 @@ export const GameBoard = ({ grid, onDrop }: GameBoardProps) => {
     const cardId = e.dataTransfer.getData('cardId');
     console.log('Card dropped:', cardId, 'at position:', x, y);
     if (cardId) {
-      onDrop({ x, y });
+      onDrop({ x, y }, cardId);
     }
   };
 
