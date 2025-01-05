@@ -1,5 +1,5 @@
 import { Card, Player } from "@/lib/game";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PlayerHandHeader } from "./PlayerHandHeader";
 import { CardList } from "./CardList";
 import { SwapControls } from "./SwapControls";
@@ -21,8 +21,19 @@ export const PlayerHand = ({
   const [isHidden, setIsHidden] = useState(true);
   const [isSwapMode, setIsSwapMode] = useState(false);
   const [hasSwappedThisTurn, setHasSwappedThisTurn] = useState(false);
+  const [previousIsActive, setPreviousIsActive] = useState(isActive);
   
+  // Auto-hide cards when player's turn ends
+  useEffect(() => {
+    if (previousIsActive && !isActive) {
+      console.log('Turn ended, auto-hiding cards for player:', player.name);
+      setIsHidden(true);
+    }
+    setPreviousIsActive(isActive);
+  }, [isActive, player.name]);
+
   const handleDragStart = (card: Card) => {
+    console.log('Card drag started:', card.id);
     onCardSelect(card);
   };
 
@@ -36,10 +47,12 @@ export const PlayerHand = ({
       newSelection.add(cardId);
     }
     setSelectedForSwap(newSelection);
+    console.log('Card selection toggled:', cardId, 'Selected cards:', Array.from(newSelection));
   };
 
   const handleSwap = () => {
     if (selectedForSwap.size === 2 && onSwapCards && !hasSwappedThisTurn) {
+      console.log('Executing card swap for player:', player.name);
       onSwapCards();
       setSelectedForSwap(new Set());
       setIsSwapMode(false);
