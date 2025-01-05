@@ -23,7 +23,12 @@ const Index = () => {
 
     if (game.placeCard(position, selectedCard)) {
       setSelectedCard(null);
-      setGame({ ...game }); // Force re-render
+      // Create a new instance of the game to trigger a re-render
+      const newGame = new ChromalinkGame(game.players.length);
+      newGame.players = game.players;
+      newGame.currentPlayer = game.currentPlayer;
+      newGame.grid = game.grid;
+      setGame(newGame);
     } else {
       toast({
         title: "Invalid move",
