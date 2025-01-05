@@ -27,11 +27,11 @@ export const CardSelectionHandler = ({
 
   const handleDragStart = (card: Card) => {
     console.log('Card drag started:', card.id);
-    onSwapCards && onSwapCards();
+    // Remove the automatic swap trigger from here
   };
 
   const toggleCardSelection = (cardId: string) => {
-    if (!isSwapMode) return;
+    if (!isSwapMode || hasSwappedThisTurn) return;
     
     const newSelection = new Set(selectedForSwap);
     if (newSelection.has(cardId)) {
