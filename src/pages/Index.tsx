@@ -3,7 +3,7 @@ import { PlayerSelect } from "@/components/PlayerSelect";
 import { GameBoard } from "@/components/GameBoard";
 import { PlayerHand } from "@/components/PlayerHand";
 import { Card, ChromalinkGame, Position } from "@/lib/game";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
   const [game, setGame] = useState<ChromalinkGame | null>(null);
@@ -28,6 +28,7 @@ const Index = () => {
       newGame.players = game.players;
       newGame.currentPlayer = game.currentPlayer;
       newGame.grid = game.grid;
+      newGame.deck = game.deck;
       setGame(newGame);
     } else {
       toast({
