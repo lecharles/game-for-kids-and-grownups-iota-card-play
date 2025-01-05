@@ -32,8 +32,8 @@ export const PlayerSelect = ({ onSelect }: PlayerSelectProps) => {
           <p>
             Welcome to Tinaiota! Match cards by color, shape, or number to score points. 
             Place cards next to matching ones on the grid. Each player can swap up to 2 cards 
-            from their hand during their turn. Remember to hide your cards between turns since 
-            you're sharing the same screen. The player with the highest score wins!
+            once per turn. Remember to show your cards when it's your turn since they start hidden. 
+            The player with the highest score wins!
           </p>
         </div>
         

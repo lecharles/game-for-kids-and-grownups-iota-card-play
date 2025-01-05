@@ -12,8 +12,9 @@ interface PlayerHandProps {
 
 export const PlayerHand = ({ player, isActive, onCardSelect, onSwapCards }: PlayerHandProps) => {
   const [selectedForSwap, setSelectedForSwap] = useState<Set<string>>(new Set());
-  const [isHidden, setIsHidden] = useState(false);
+  const [isHidden, setIsHidden] = useState(true); // Start hidden by default
   const [isSwapMode, setIsSwapMode] = useState(false);
+  const [hasSwappedThisTurn, setHasSwappedThisTurn] = useState(false);
   
   const handleDragStart = (card: Card) => {
     onCardSelect(card);
@@ -32,16 +33,22 @@ export const PlayerHand = ({ player, isActive, onCardSelect, onSwapCards }: Play
   };
 
   const handleSwap = () => {
-    if (selectedForSwap.size === 2 && onSwapCards) {
+    if (selectedForSwap.size === 2 && onSwapCards && !hasSwappedThisTurn) {
       onSwapCards();
       setSelectedForSwap(new Set());
       setIsSwapMode(false);
+      setHasSwappedThisTurn(true);
     }
   };
 
   const toggleVisibility = () => {
     setIsHidden(!isHidden);
   };
+
+  // Reset swap state when player becomes active (new turn)
+  if (isActive && hasSwappedThisTurn) {
+    setHasSwappedThisTurn(false);
+  }
 
   return (
     <div className={`p-4 rounded-lg ${isActive ? "bg-primary bg-opacity-10" : "bg-gray-50"}`}>
@@ -82,8 +89,9 @@ export const PlayerHand = ({ player, isActive, onCardSelect, onSwapCards }: Play
               onClick={() => setIsSwapMode(true)}
               variant="outline"
               size="sm"
+              disabled={hasSwappedThisTurn}
             >
-              Swap Cards
+              {hasSwappedThisTurn ? "Already Swapped" : "Swap Cards"}
             </Button>
           ) : (
             <>
