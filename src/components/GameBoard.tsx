@@ -9,11 +9,16 @@ interface GameBoardProps {
 export const GameBoard = ({ grid, onDrop }: GameBoardProps) => {
   const handleDrop = (e: React.DragEvent, x: number, y: number) => {
     e.preventDefault();
-    onDrop({ x, y });
+    const cardId = e.dataTransfer.getData('cardId');
+    console.log('Card dropped:', cardId, 'at position:', x, y);
+    if (cardId) {
+      onDrop({ x, y });
+    }
   };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
   };
 
   return (
