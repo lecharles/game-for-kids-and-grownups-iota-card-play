@@ -1,5 +1,6 @@
 import { Card, Position } from "@/lib/game";
 import { GameCard } from "./GameCard";
+import { useState } from "react";
 
 interface GameBoardProps {
   grid: Map<string, Card>;
@@ -7,6 +8,8 @@ interface GameBoardProps {
 }
 
 export const GameBoard = ({ grid, onDrop }: GameBoardProps) => {
+  const [draggedOver, setDraggedOver] = useState<string | null>(null);
+
   const handleDrop = (e: React.DragEvent, x: number, y: number) => {
     e.preventDefault();
     const cardId = e.dataTransfer.getData('cardId');
@@ -14,11 +17,17 @@ export const GameBoard = ({ grid, onDrop }: GameBoardProps) => {
     if (cardId) {
       onDrop({ x, y }, cardId);
     }
+    setDraggedOver(null);
   };
 
-  const handleDragOver = (e: React.DragEvent) => {
+  const handleDragOver = (e: React.DragEvent, position: string) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
+    setDraggedOver(position);
+  };
+
+  const handleDragLeave = () => {
+    setDraggedOver(null);
   };
 
   return (
@@ -27,18 +36,31 @@ export const GameBoard = ({ grid, onDrop }: GameBoardProps) => {
         {Array.from({ length: 64 }, (_, i) => {
           const x = i % 8;
           const y = Math.floor(i / 8);
-          const card = grid.get(`${x},${y}`);
+          const position = `${x},${y}`;
+          const card = grid.get(position);
+          const isCenter = x === 4 && y === 4;
+          const isDraggedOver = draggedOver === position;
 
           return (
             <div
               key={`${x}-${y}`}
-              className={`border border-gray-200 p-1 ${
-                x === 4 && y === 4 ? 'bg-primary/10' : ''
-              } ${!card ? 'hover:bg-gray-200' : ''}`}
+              className={`border border-gray-200 p-1 relative
+                ${isCenter ? 'bg-primary/10' : ''}
+                ${!card ? 'hover:bg-gray-200' : ''}
+                ${isDraggedOver && !card ? 'bg-gray-200' : ''}`}
               onDrop={(e) => handleDrop(e, x, y)}
-              onDragOver={handleDragOver}
+              onDragOver={(e) => handleDragOver(e, position)}
+              onDragLeave={handleDragLeave}
             >
-              {card && <GameCard card={card} />}
+              {card ? (
+                <GameCard card={card} />
+              ) : (
+                isDraggedOver && (
+                  <div className="absolute inset-0 flex items-center justify-center text-4xl text-gray-400">
+                    +
+                  </div>
+                )
+              )}
             </div>
           );
         })}
