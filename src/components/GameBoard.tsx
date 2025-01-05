@@ -16,13 +16,14 @@ export const GameBoard = ({ grid, onDrop }: GameBoardProps) => {
     console.log('Dropping card:', cardId, 'at position:', x, y);
     if (cardId) {
       onDrop({ x, y }, cardId);
+      setDraggedOver(null);
     }
-    setDraggedOver(null);
   };
 
   const handleDragOver = (e: React.DragEvent, position: string) => {
     e.preventDefault();
-    if (!grid.get(position)) {
+    const card = grid.get(position);
+    if (!card) {
       e.dataTransfer.dropEffect = 'move';
       setDraggedOver(position);
     }
