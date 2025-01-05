@@ -12,7 +12,7 @@ export const GameBoard = ({ grid, onDrop }: GameBoardProps) => {
 
   const handleDrop = (e: React.DragEvent, x: number, y: number) => {
     e.preventDefault();
-    const cardId = e.dataTransfer.getData('cardId');
+    const cardId = e.dataTransfer.getData('text/plain');
     console.log('Dropping card:', cardId, 'at position:', x, y);
     if (cardId) {
       onDrop({ x, y }, cardId);
@@ -22,6 +22,7 @@ export const GameBoard = ({ grid, onDrop }: GameBoardProps) => {
 
   const handleDragOver = (e: React.DragEvent, position: string) => {
     e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
     const card = grid.get(position);
     if (!card) {
       setDraggedOver(position);
