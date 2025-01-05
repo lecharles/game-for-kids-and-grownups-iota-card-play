@@ -4,7 +4,7 @@ import { Circle, Plus, Square, Triangle } from "lucide-react";
 interface GameCardProps {
   card: Card;
   draggable?: boolean;
-  onDragStart?: () => void;
+  onDragStart?: (card: Card) => void;
 }
 
 const ShapeMap = {
@@ -17,11 +17,16 @@ const ShapeMap = {
 export const GameCard = ({ card, draggable = false, onDragStart }: GameCardProps) => {
   const ShapeComponent = ShapeMap[card.shape];
 
+  const handleDragStart = (e: React.DragEvent) => {
+    e.dataTransfer.setData('cardId', card.id);
+    if (onDragStart) onDragStart(card);
+  };
+
   return (
     <div
       draggable={draggable}
-      onDragStart={onDragStart}
-      className={`relative w-full h-full rounded-lg bg-white shadow-md transition-transform hover:scale-105 cursor-pointer`}
+      onDragStart={handleDragStart}
+      className={`relative w-full h-full rounded-lg bg-white shadow-md transition-transform hover:scale-105 cursor-pointer ${draggable ? 'hover:animate-card-hover' : ''}`}
     >
       <div
         className={`absolute inset-0 rounded-lg bg-card-${card.color} bg-opacity-20 flex items-center justify-center`}

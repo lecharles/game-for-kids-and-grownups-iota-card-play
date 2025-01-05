@@ -27,7 +27,9 @@ export const GameBoard = ({ grid, onDrop }: GameBoardProps) => {
           return (
             <div
               key={`${x}-${y}`}
-              className={`border border-gray-200 p-1 ${x === 4 && y === 4 ? 'bg-primary/10' : ''}`}
+              className={`border border-gray-200 p-1 ${
+                x === 4 && y === 4 ? 'bg-primary/10' : ''
+              } ${!card ? 'hover:bg-gray-200' : ''}`}
               onDrop={(e) => handleDrop(e, x, y)}
               onDragOver={handleDragOver}
             >

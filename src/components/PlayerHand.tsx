@@ -8,6 +8,10 @@ interface PlayerHandProps {
 }
 
 export const PlayerHand = ({ player, isActive, onCardSelect }: PlayerHandProps) => {
+  const handleDragStart = (card: Card) => {
+    onCardSelect(card);
+  };
+
   return (
     <div className={`p-4 rounded-lg ${isActive ? "bg-primary bg-opacity-10" : "bg-gray-50"}`}>
       <div className="flex justify-between items-center mb-2">
@@ -16,8 +20,12 @@ export const PlayerHand = ({ player, isActive, onCardSelect }: PlayerHandProps) 
       </div>
       <div className="flex gap-2">
         {player.hand.map((card) => (
-          <div key={card.id} className="w-16 h-24" onClick={() => onCardSelect(card)}>
-            <GameCard card={card} draggable={isActive} />
+          <div key={card.id} className="w-16 h-24">
+            <GameCard 
+              card={card} 
+              draggable={isActive} 
+              onDragStart={handleDragStart}
+            />
           </div>
         ))}
       </div>

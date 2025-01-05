@@ -23,7 +23,7 @@ const Index = () => {
 
     if (game.placeCard(position, selectedCard)) {
       setSelectedCard(null);
-      // Create a new instance of the game to trigger a re-render
+      // Create a new instance to trigger re-render
       const newGame = new ChromalinkGame(game.players.length);
       newGame.players = game.players;
       newGame.currentPlayer = game.currentPlayer;
@@ -33,7 +33,7 @@ const Index = () => {
     } else {
       toast({
         title: "Invalid move",
-        description: "You cannot place a card there",
+        description: "This move is not allowed according to the game rules",
         variant: "destructive",
       });
     }
