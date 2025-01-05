@@ -31,18 +31,21 @@ export const GameCard = ({ card, draggable = false, onDragStart }: GameCardProps
       }`}
     >
       <div
-        className={`absolute inset-0 rounded-lg bg-card-${card.color} bg-opacity-20 flex items-center justify-center`}
+        className={`absolute inset-0 rounded-lg flex items-center justify-center`}
+        style={{ backgroundColor: `var(--card-${card.color})` }}
       >
         <div className="relative">
           <ShapeComponent 
-            className={`w-8 h-8 text-card-${card.color}`} 
+            className="w-8 h-8"
+            style={{ color: `var(--card-${card.color})` }}
             strokeWidth={2.5}
           />
-          <span
-            className={`absolute -top-3 -right-3 w-5 h-5 rounded-full bg-card-${card.color} text-white flex items-center justify-center text-xs font-bold`}
+          <div
+            className={`absolute -top-3 -right-3 w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold text-white`}
+            style={{ backgroundColor: `var(--card-${card.color})` }}
           >
             {card.number}
-          </span>
+          </div>
         </div>
       </div>
     </div>

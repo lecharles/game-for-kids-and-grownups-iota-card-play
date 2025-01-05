@@ -6,6 +6,10 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
+    --card-red: #FF0000;
+    --card-blue: #0000FF;
+    --card-green: #00FF00;
+    --card-yellow: #FFFF00;
 
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
@@ -54,6 +58,10 @@
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
+    --card-red: #FF0000;
+    --card-blue: #0000FF;
+    --card-green: #00FF00;
+    --card-yellow: #FFFF00;
 
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
