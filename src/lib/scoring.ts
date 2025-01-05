@@ -1,7 +1,9 @@
 import { Position, Card } from './types';
 
 export function calculateScore(position: Position, grid: Map<string, Card>): number {
-  let score = 1; // Base score for placing a card
+  let score = 0;
+  const card = grid.get(`${position.x},${position.y}`);
+  if (!card) return score;
 
   // Get horizontal and vertical lines
   const horizontalLine = getLine(position, [1, 0], grid);
@@ -9,18 +11,23 @@ export function calculateScore(position: Position, grid: Map<string, Card>): num
 
   // Add points for completed lines
   if (horizontalLine.length > 0) {
-    score += horizontalLine.length;
-    // Double points for 4-card line
-    if (horizontalLine.length === 3) score *= 2;
+    score += sumCardNumbers([card, ...horizontalLine]);
   }
   
   if (verticalLine.length > 0) {
-    score += verticalLine.length;
-    // Double points for 4-card line
-    if (verticalLine.length === 3) score *= 2;
+    score += sumCardNumbers([card, ...verticalLine]);
+  }
+
+  // If no lines were formed, just add the card's number
+  if (score === 0) {
+    score = card.number;
   }
 
   return score;
+}
+
+function sumCardNumbers(cards: Card[]): number {
+  return cards.reduce((sum, card) => sum + card.number, 0);
 }
 
 function getLine(position: Position, [dx, dy]: number[], grid: Map<string, Card>): Card[] {

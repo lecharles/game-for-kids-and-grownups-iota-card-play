@@ -8,16 +8,37 @@ export class ChromalinkGame {
   public players: Player[] = [];
   public currentPlayer = 0;
   public grid: Map<string, Card> = new Map();
+  public remainingCards: number;
 
   constructor(numPlayers: number, playerNames: string[]) {
     console.log('Initializing game with', numPlayers, 'players');
     this.initializeDeck();
     this.initializePlayers(numPlayers, playerNames);
     this.placeInitialCard();
+    this.remainingCards = this.deck.length;
   }
 
   private initializeDeck() {
-    this.deck = shuffleDeck(createDeck());
+    const regularCards = createDeck();
+    
+    // Add two wildcards
+    const wildcard1 = {
+      id: 'wildcard-1',
+      color: 'red' as const,
+      shape: 'circle' as const,
+      number: 1 as const,
+      isWildcard: true
+    };
+    
+    const wildcard2 = {
+      id: 'wildcard-2',
+      color: 'blue' as const,
+      shape: 'square' as const,
+      number: 2 as const,
+      isWildcard: true
+    };
+    
+    this.deck = shuffleDeck([...regularCards, wildcard1, wildcard2]);
   }
 
   private initializePlayers(numPlayers: number, playerNames: string[]) {
@@ -63,7 +84,7 @@ export class ChromalinkGame {
     
     if (cardsToSwap.length !== 2) return false;
 
-    // Remove cards from player's hand
+    // Remove specific cards from player's hand
     player.hand = player.hand.filter(card => !cardIds.includes(card.id));
     
     // Add cards back to deck and shuffle
@@ -73,7 +94,8 @@ export class ChromalinkGame {
     // Draw new cards
     const newCards = this.drawCards(2);
     player.hand.push(...newCards);
-
+    
+    this.remainingCards = this.deck.length;
     console.log('Swapped cards for player', player.name, 'New hand:', player.hand);
     return true;
   }
@@ -99,10 +121,24 @@ export class ChromalinkGame {
       player.hand.push(newCard);
     }
 
+    // Update remaining cards count
+    this.remainingCards = this.deck.length;
+
     // Next player
     this.currentPlayer = (this.currentPlayer + 1) % this.players.length;
 
     return true;
+  }
+
+  public isGameOver(): boolean {
+    return this.remainingCards === 0;
+  }
+
+  public getWinner(): Player | null {
+    if (!this.isGameOver()) return null;
+    return this.players.reduce((prev, current) => 
+      (prev.score > current.score) ? prev : current
+    );
   }
 }
 

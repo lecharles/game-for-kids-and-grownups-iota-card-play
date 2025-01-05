@@ -23,13 +23,25 @@ const Index = () => {
 
     if (game.placeCard(position, selectedCard)) {
       setSelectedCard(null);
+      
       // Create a new instance to trigger re-render
       const newGame = new ChromalinkGame(game.players.length, game.players.map(p => p.name));
       newGame.players = game.players;
       newGame.currentPlayer = game.currentPlayer;
       newGame.grid = game.grid;
       newGame.deck = game.deck;
+      newGame.remainingCards = game.remainingCards;
       setGame(newGame);
+
+      if (game.isGameOver()) {
+        const winner = game.getWinner();
+        if (winner) {
+          toast({
+            title: "Game Over!",
+            description: `${winner.name} wins with ${winner.score} points!`,
+          });
+        }
+      }
     } else {
       toast({
         title: "Invalid move",
@@ -52,6 +64,7 @@ const Index = () => {
       newGame.currentPlayer = game.currentPlayer;
       newGame.grid = game.grid;
       newGame.deck = game.deck;
+      newGame.remainingCards = game.remainingCards;
       setGame(newGame);
       
       toast({
@@ -74,7 +87,12 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
-        <h1 className="text-3xl font-bold text-primary text-center">Tinaiota</h1>
+        <div className="flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-primary">Tinaiota</h1>
+          <div className="bg-primary/10 px-4 py-2 rounded-lg">
+            <span className="font-medium">Cards in deck: {game.remainingCards}</span>
+          </div>
+        </div>
         
         <GameBoard grid={game.grid} onDrop={handleCardDrop} />
         
