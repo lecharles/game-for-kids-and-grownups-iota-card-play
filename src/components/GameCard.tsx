@@ -19,9 +19,7 @@ export const GameCard = ({ card, draggable = false, onDragStart, isWildcard = fa
   const ShapeComponent = ShapeMap[card.shape];
 
   const handleDragStart = (e: React.DragEvent) => {
-    console.log('Starting drag for card:', card.id);
-    e.dataTransfer.setData('text/plain', card.id);
-    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('cardId', card.id);
     if (onDragStart) onDragStart(card);
   };
 
