@@ -10,8 +10,10 @@ export class ChromalinkGame {
   public grid: Map<string, Card> = new Map();
 
   constructor(numPlayers: number) {
+    console.log('Initializing game with', numPlayers, 'players');
     this.initializeDeck();
     this.initializePlayers(numPlayers);
+    this.placeInitialCard();
   }
 
   private initializeDeck() {
@@ -19,14 +21,34 @@ export class ChromalinkGame {
   }
 
   private initializePlayers(numPlayers: number) {
+    // Ensure number of players is valid
+    if (numPlayers < 2 || numPlayers > 4) {
+      throw new Error('Invalid number of players');
+    }
+
+    // Clear existing players
+    this.players = [];
+
+    // Create new players with initial hands
     for (let i = 0; i < numPlayers; i++) {
+      const hand = this.drawCards(4);
+      console.log(`Initializing Player ${i + 1} with hand:`, hand);
       this.players.push({
         id: i,
         name: `Player ${i + 1}`,
-        hand: this.drawCards(4),
+        hand,
         score: 0,
       });
     }
+  }
+
+  private placeInitialCard() {
+    // Draw a card for the center
+    const centerCard = this.drawCards(1)[0];
+    console.log('Placing initial card in center:', centerCard);
+    
+    // Place it at position (4,4) - center of the 8x8 grid
+    this.grid.set('4,4', centerCard);
   }
 
   private drawCards(count: number): Card[] {

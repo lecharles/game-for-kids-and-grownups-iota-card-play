@@ -22,11 +22,6 @@ export function isValidMove(position: Position, card: Card, grid: Map<string, Ca
   const key = `${position.x},${position.y}`;
   if (grid.has(key)) return false;
 
-  // If it's the first card, it must be placed at (4,4)
-  if (grid.size === 0) {
-    return position.x === 4 && position.y === 4;
-  }
-
   // Check if there are adjacent cards
   const hasAdjacent = getAdjacentCards(position, grid).length > 0;
   if (!hasAdjacent) return false;
