@@ -36,12 +36,11 @@ export const GameCard = ({ card, draggable = false, onDragStart }: GameCardProps
       >
         <div className="relative">
           <ShapeComponent 
-            className="w-8 h-8"
-            style={{ color: `var(--card-${card.color})` }}
-            strokeWidth={2.5}
+            className="w-8 h-8 text-white"
+            strokeWidth={3}
           />
           <div
-            className={`absolute -top-3 -right-3 w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold text-white`}
+            className={`absolute -top-3 -right-3 w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold text-white bg-opacity-80`}
             style={{ backgroundColor: `var(--card-${card.color})` }}
           >
             {card.number}
