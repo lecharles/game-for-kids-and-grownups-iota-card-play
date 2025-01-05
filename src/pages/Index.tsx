@@ -10,8 +10,8 @@ const Index = () => {
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const { toast } = useToast();
 
-  const handlePlayerSelect = (numPlayers: number) => {
-    setGame(new ChromalinkGame(numPlayers));
+  const handlePlayerSelect = (numPlayers: number, playerNames: string[]) => {
+    setGame(new ChromalinkGame(numPlayers, playerNames));
   };
 
   const handleCardSelect = (card: Card) => {
@@ -24,7 +24,7 @@ const Index = () => {
     if (game.placeCard(position, selectedCard)) {
       setSelectedCard(null);
       // Create a new instance to trigger re-render
-      const newGame = new ChromalinkGame(game.players.length);
+      const newGame = new ChromalinkGame(game.players.length, game.players.map(p => p.name));
       newGame.players = game.players;
       newGame.currentPlayer = game.currentPlayer;
       newGame.grid = game.grid;
@@ -39,6 +39,34 @@ const Index = () => {
     }
   };
 
+  const handleSwapCards = () => {
+    if (!game) return;
+    
+    const currentPlayer = game.players[game.currentPlayer];
+    const selectedCards = currentPlayer.hand.slice(0, 2).map(card => card.id);
+    
+    if (game.swapCards(selectedCards)) {
+      // Create a new instance to trigger re-render
+      const newGame = new ChromalinkGame(game.players.length, game.players.map(p => p.name));
+      newGame.players = game.players;
+      newGame.currentPlayer = game.currentPlayer;
+      newGame.grid = game.grid;
+      newGame.deck = game.deck;
+      setGame(newGame);
+      
+      toast({
+        title: "Cards swapped",
+        description: "Selected cards have been swapped with new ones from the deck",
+      });
+    } else {
+      toast({
+        title: "Cannot swap cards",
+        description: "Not enough cards in the deck or invalid selection",
+        variant: "destructive",
+      });
+    }
+  };
+
   if (!game) {
     return <PlayerSelect onSelect={handlePlayerSelect} />;
   }
@@ -46,7 +74,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
-        <h1 className="text-3xl font-bold text-primary text-center">Chromalink</h1>
+        <h1 className="text-3xl font-bold text-primary text-center">Tinaiota</h1>
         
         <GameBoard grid={game.grid} onDrop={handleCardDrop} />
         
@@ -57,6 +85,7 @@ const Index = () => {
               player={player}
               isActive={index === game.currentPlayer}
               onCardSelect={handleCardSelect}
+              onSwapCards={handleSwapCards}
             />
           ))}
         </div>
