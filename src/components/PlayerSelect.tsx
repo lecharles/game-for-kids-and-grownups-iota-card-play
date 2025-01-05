@@ -17,7 +17,6 @@ export const PlayerSelect = ({ onSelect }: PlayerSelectProps) => {
   };
 
   const handleSubmit = () => {
-    // Get only the names for selected number of players
     const names = playerNames.slice(0, selected).map((name, index) => 
       name.trim() || `Player ${index + 1}`
     );
@@ -28,6 +27,16 @@ export const PlayerSelect = ({ onSelect }: PlayerSelectProps) => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
       <div className="text-center space-y-8 w-full max-w-md">
         <h1 className="text-4xl font-bold text-primary">Tinaiota</h1>
+        
+        <div className="bg-gray-50 p-4 rounded-lg text-left text-sm text-gray-600">
+          <p>
+            Welcome to Tinaiota! Match cards by color, shape, or number to score points. 
+            Place cards next to matching ones on the grid. Each player can swap up to 2 cards 
+            from their hand during their turn. Remember to hide your cards between turns since 
+            you're sharing the same screen. The player with the highest score wins!
+          </p>
+        </div>
+        
         <p className="text-lg text-gray-600">Select number of players</p>
         
         <div className="flex gap-4 justify-center">
